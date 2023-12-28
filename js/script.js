@@ -5,15 +5,12 @@ const ctx = canvas.getContext("2d");
 const jugadorImg = document.createElement('img');
 // Ruta a la imagen del jugador
 jugadorImg.src = "../assets/images/nave.png"; 
-//Agrego la imagen al documento
-document.body.appendChild(jugadorImg);
 
 // Creo la imagen para el jugador
 const alienImg = document.createElement('img');
 // Ruta a la imagen de los marcianos
 alienImg.src = "../assets/images/marcianos.png"; 
-//Agrego la imagen al documento
-document.body.appendChild(alienImg);
+
 
 
 // Clase del jugador
@@ -24,6 +21,20 @@ class Jugador {
       this.width = width;
       this.height = height;
       this.velocidad = velocidad;
+    }
+
+    // Método para mover al jugador
+    mover(direccion) {
+      if (direccion === "left" && this.x > 0) {
+        this.x -= this.speed;
+      } else if (direccion === "right" && this.x < canvas.width - this.width) {
+        this.x += this.speed;
+      }
+    }
+
+    // Método para disparar balas
+    disparar() {
+      balas.push({ x: this.x + this.width / 2 - 1, y: this.y });
     }
   
     // Método para dibujar al jugador en el canvas
@@ -68,3 +79,12 @@ class Bala {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
+
+// Variables de juego y configuración inicial
+const player = new Jugador(canvas.width / 2, canvas.height - 80, 50, 70, 5);
+let aliens = [];
+let balas = [];
+let score = 0;
+let isGameOver = false;
+let alienSpeed = 1;
+let direction = 1;
