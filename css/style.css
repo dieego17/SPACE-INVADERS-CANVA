@@ -1,0 +1,7 @@
+body{
+    background-image: url(../assets/images/espacio.png);
+}
+.canvas {
+    display: block;
+    margin: 0 auto;
+}
