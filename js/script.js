@@ -80,7 +80,7 @@ class Bala {
     }
 }
 
-// Variables de juego y configuración inicial
+// Variables y configuración inicial
 const player = new Jugador(canvas.width / 2, canvas.height - 80, 50, 70, 5);
 let aliens = [];
 let balas = [];
@@ -88,3 +88,54 @@ let score = 0;
 let isGameOver = false;
 let alienSpeed = 1;
 let direction = 1;
+
+// Función para dibujar al jugador
+function dibujarPlayer() {
+  player.dibujar();
+}
+
+// Función para dibujar las balas
+function dibujarBalas() {
+  balas.forEach((bala) => {
+    const balaObject = new Bala(bala.x, bala.y);
+    balaObject.dibujar();
+  });
+}
+
+// Función para dibujar a los aliens
+function dibujarAliens() {
+  aliens.forEach((alien) => {
+    const alienObject = new Alien(alien.x, alien.y);
+    alienObject.dibujar();
+  });
+}
+
+// Función para dibujar la puntuación
+function dibujarScore() {
+  ctx.fillStyle = "red";
+  ctx.font = "25px Arial";
+  ctx.fillText("Puntuación: " + score, 8, 20);
+}
+
+// Función principal de dibujo del juego
+function dibujar() {
+  if (isGameOver) {
+    ctx.fillStyle = "#0095DD";
+    ctx.font = "30px Arial";
+    ctx.fillText("Has Perdido!", canvas.width / 2 - 70, canvas.height / 2);
+    return;
+  }
+
+  // Borrar canvas 
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  dibujarPlayer();
+  dibujarBalas();
+  dibujarAliens();
+  dibujarScore();
+  moverBalas();
+  moverAliens();
+  Colisiones();
+  requestAnimationFrame(dibujar); // Continuar la animación
+}
+
+dibujar();
