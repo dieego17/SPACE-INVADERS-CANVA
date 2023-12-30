@@ -1,0 +1,48 @@
+@font-face {
+    font-family: spaceMono;
+    src: url(../assets/fonts/SpaceMono-Regular.ttf);
+}
+body{
+    background-image: url(../assets/images/espacio.png);
+}
+
+.container{
+    margin: 0 auto;
+    width: 1080px;
+    text-align: center;
+    border-radius: 5px;
+}
+.title__h1{
+    color: #51ff00;
+    font-size: 2.5rem;
+    font-family: spaceMono;
+}
+.title__h2 {
+    color: #ff0000;
+    font-family: spaceMono;
+    font-size: 1.5rem;
+}
+.title__h3{
+    color: #a600ff;
+    font-size: 1rem;
+    font-family: spaceMono;
+}
+.container__reglas{
+    text-align: justify;
+}
+.text__juego{
+    color: #ffffff;
+    font-family: spaceMono;
+}
+.container__boton{
+    padding: 0px 0px 10px;
+}
+.enlace__juego{
+    border-radius: 5px;
+    font-family: spaceMono;
+    padding: 5px 40px;
+    font-size: 1.3rem;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: red;
+}

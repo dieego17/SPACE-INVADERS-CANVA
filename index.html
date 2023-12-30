@@ -3,13 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <title>SPACE</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 <body>
-    <canvas class="canvas" id="gameCanvas" width="800" height="600"></canvas>
-    <div class="container__button">
-        <button class="button" id="dispararBoton">Disparar</button>
-      </div>
-    <script src="./js/script.js"></script>
+    <div class="container">
+        <h1 class="title__h1">BIENVENIDO/A SPACE ALIENS</h1>
+        <h2 class="title__h2">REGLAS</h2>
+        <div class="container__reglas">
+            <h3 class="title__h3">1. Objetivo del juego:</h3>
+            <p class="text__juego">
+                El objetivo principal es eliminar a todos los invasores extraterrestres antes de que lleguen a la parte inferior de la pantalla para que no alcancen tu nave espacial.
+            </p>
+            <h3 class="title__h3">2. Control de la nave:</h3>
+            <p class="text__juego">
+                - Utiliza las teclas de dirección para mover tu nave de un lado a otro. <br>
+                - Utiliza un botón designado para disparar proyectiles y eliminar a los invasores.
+            </p>
+            <h3 class="title__h3">3. Invasores extraterrestres:</h3>
+            <p class="text__juego">
+                - Los invasores se mueven de lado a lado y avanzan gradualmente hacia abajo a intervalos regulares.
+            </p>
+            <h3 class="title__h3">4. Puntuación:</h3>
+            <p class="text__juego">
+                - Ganas puntos por cada invasor que elimines.<br>
+                - Si llegas a 1000 puntos ganas el juego.
+            </p>
+            <h3 class="title__h3">5. Niveles:</h3>
+            <p class="text__juego">
+                - El juego tiene varios niveles. Cuando matas a todos los marcianos, aumenta el numero de marcianos y de velocidad.
+            </p>
+        </div>
+        <div class="container__boton">
+            <a class="enlace__juego" href="./pages/juego.html">JUGAR!</a>
+        </div>
+    </div>
 </body>
 </html>
