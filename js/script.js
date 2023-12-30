@@ -26,9 +26,9 @@ class Jugador {
     // Método para mover al jugador
     mover(direccion) {
       if (direccion === "left" && this.x > 0) {
-        this.x -= this.speed;
+        this.x -= this.velocidad;
       } else if (direccion === "right" && this.x < canvas.width - this.width) {
-        this.x += this.speed;
+        this.x += this.velocidad;
       }
     }
 
@@ -84,10 +84,10 @@ class Bala {
 const player = new Jugador(canvas.width / 2, canvas.height - 80, 50, 70, 5);
 let aliens = [];
 let balas = [];
-let score = 0;
+let puntuacion = 0;
 let isGameOver = false;
-let alienSpeed = 1;
-let direction = 1;
+let velocidadAlien = 1;
+let direccion = 1;
 
 // Función para dibujar al jugador
 function dibujarPlayer() {
@@ -111,10 +111,10 @@ function dibujarAliens() {
 }
 
 // Función para dibujar la puntuación
-function dibujarScore() {
+function dibujarPuntuacion() {
   ctx.fillStyle = "red";
   ctx.font = "25px Arial";
-  ctx.fillText("Puntuación: " + score, 8, 20);
+  ctx.fillText("Puntuación: " + puntuacion, 8, 20);
 }
 
 // Función principal de dibujo del juego
@@ -122,7 +122,15 @@ function dibujar() {
   if (isGameOver) {
     ctx.fillStyle = "#0095DD";
     ctx.font = "30px Arial";
-    ctx.fillText("Has Perdido!", canvas.width / 2 - 70, canvas.height / 2);
+    ctx.fillText("¡Has Perdido!", canvas.width / 2 - 70, canvas.height / 2);
+    return;
+  }
+
+  if (puntuacion === 1010) {
+    ctx.fillStyle = "#0095DD";
+    ctx.font = "30px Arial";
+    ctx.fillText("¡Has Ganado!", canvas.width / 2 - 70, canvas.height / 2);
+    isGameOver = true;
     return;
   }
 
@@ -131,11 +139,112 @@ function dibujar() {
   dibujarPlayer();
   dibujarBalas();
   dibujarAliens();
-  dibujarScore();
+  dibujarPuntuacion();
   moverBalas();
   moverAliens();
-  Colisiones();
+  colisiones();
   requestAnimationFrame(dibujar); // Continuar la animación
 }
 
+// Función para mover las balas
+function moverBalas() {
+  balas.forEach((bala) => {
+    bala.y -= 5;
+  });
+}
+
+// Función para mover a los aliens
+function moverAliens() {
+  let maxX = 0;
+  let minX = canvas.width;
+
+  aliens.forEach((alien) => {
+    alien.x += velocidadAlien * direccion;
+
+    if (alien.x > maxX) {
+      maxX = alien.x;
+    }
+
+    if (alien.x < minX) {
+      minX = alien.x;
+    }
+  });
+
+  // Cambiar la dirección y mover los aliens hacia abajo
+  if (maxX > canvas.width - 30 || minX < 0) {
+    direccion = - direccion;
+    aliens.forEach((alien) => {
+      alien.y += 20;
+    });
+  }
+}
+
+
+// Función para verificar colisiones entre balas y aliens
+function colisiones() {
+  balas.forEach((bala, balaIndex) => {
+    aliens.forEach((alien, alienIndex) => {
+      if (
+        bala.x > alien.x &&
+        bala.x < alien.x + 30 &&
+        bala.y > alien.y &&
+        bala.y < alien.y + 20
+      ) {
+        balas.splice(balaIndex, 1);
+        aliens.splice(alienIndex, 1);
+        puntuacion += 10;
+      }
+    });
+  });
+
+  // Incrementar la velocidad de los aliens y volver a generarlos si todos son eliminados
+  if (aliens.length === 0) {
+    velocidadAlien += 0.5;
+
+    const alienFila = 4;
+    const alienColumna = 5;
+    for (let i = 0; i < alienFila; i++) {
+      for (let j = 0; j < alienColumna; j++) {
+        aliens.push({ x: 50 * i + 30, y: 30 * j + 30 });
+      }
+    }
+  }
+
+  // Verificar colisión entre jugador y aliens
+  aliens.forEach((alien) => {
+    if (
+      player.x < alien.x + 30 &&
+      player.x + player.width > alien.x &&
+      player.y < alien.y + 20 &&
+      player.y + player.height > alien.y
+    ) {
+      isGameOver = true;
+    }
+  });
+}
+
+// Evento para controlar el jugador
+document.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowLeft") {
+    player.mover("left");
+  } else if (e.key === "ArrowRight") {
+    player.mover("right");
+  }
+});
+
+// Evento para disparar sobre el botón
+dispararBoton.addEventListener("click", ()=>{
+  player.disparar();
+});
+
+// Inicializar el juego
+function iniciar() {
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 3; j++) {
+      aliens.push({ x: 50 * i + 30, y: 30 * j + 30 });
+    }
+  }
+}
+
+iniciar();
 dibujar();
